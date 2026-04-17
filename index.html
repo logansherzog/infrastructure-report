@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infrastructure Report - March 02, 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Infrastructure Report - April 17, 2026</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,38 +14,109 @@
         }
         
         body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            color: #e5e7eb;
             min-height: 100vh;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
+            line-height: 1.5;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 2px solid rgba(16, 185, 129, 0.3);
+            margin-bottom: 2rem;
         }
         
         .header h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #10b981;
             margin-bottom: 0.5rem;
         }
         
         .header .date {
-            font-size: 1.1rem;
-            opacity: 0.7;
-            font-weight: 500;
+            font-size: 1.125rem;
+            color: #9ca3af;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .health-overview {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .health-overview h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f3f4f6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .overview-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .overview-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .overview-card .label {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .healthy { color: #10b981; }
+        .warning { color: #f59e0b; }
+        .critical { color: #ef4444; }
+        
+        .alert-section {
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .alert-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-item {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-item.info {
+            border-left-color: #3b82f6;
         }
         
         .section {
@@ -58,134 +130,51 @@
         .section h2 {
             font-size: 1.5rem;
             font-weight: 600;
+            color: #f3f4f6;
             margin-bottom: 1.5rem;
-            color: #10b981;
-        }
-        
-        .overview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .metric-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-label {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            font-weight: 500;
-        }
-        
-        .alert-section {
-            margin-bottom: 2rem;
-        }
-        
-        .alert-critical {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .alert-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .alert-critical .alert-title {
-            color: #ef4444;
-        }
-        
-        .alert-warning .alert-title {
-            color: #f59e0b;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        
-        th, td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        th {
-            font-weight: 600;
-            color: #10b981;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        td {
-            font-size: 0.9rem;
         }
         
         .workspace-badge {
             display: inline-block;
             padding: 0.25rem 0.75rem;
-            border-radius: 6px;
+            border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
-        .workspace-eolas {
-            background: rgba(16, 185, 129, 0.2);
+        .workspace-badge.eolas {
+            background-color: rgba(16, 185, 129, 0.2);
             color: #10b981;
         }
         
-        .workspace-virgil {
-            background: rgba(99, 102, 241, 0.2);
-            color: #6366f1;
+        .workspace-badge.virgil {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
         }
         
-        .status-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .table th {
             font-weight: 600;
+            color: #f3f4f6;
+            background: rgba(255, 255, 255, 0.02);
         }
         
-        .status-active {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-        
-        .status-paused {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-        }
-        
-        .status-draft {
-            background: rgba(156, 163, 175, 0.2);
-            color: #9ca3af;
+        .table td {
+            color: #d1d5db;
         }
         
         .health-bar {
@@ -194,36 +183,29 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
             overflow: hidden;
-            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 0.5rem;
         }
         
-        .health-fill {
+        .health-bar-fill {
             height: 100%;
             transition: width 0.3s ease;
         }
         
-        .health-excellent { background: #10b981; }
-        .health-good { background: #22c55e; }
-        .health-warning { background: #f59e0b; }
-        .health-critical { background: #ef4444; }
-        .health-unknown { background: #6b7280; }
-        
-        .leads-count {
-            font-weight: 600;
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
         }
         
-        .leads-critical { color: #ef4444; }
-        .leads-warning { color: #f59e0b; }
-        .leads-good { color: #10b981; }
+        .status-active { background-color: #10b981; }
+        .status-paused { background-color: #f59e0b; }
+        .status-draft { background-color: #6b7280; }
         
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            opacity: 0.5;
-            font-size: 0.9rem;
-        }
-        
-        .actions-section {
+        .proposed-actions {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
@@ -231,287 +213,270 @@
             margin-bottom: 2rem;
         }
         
-        .actions-section h2 {
-            color: #10b981;
+        .proposed-actions h2 {
             font-size: 1.5rem;
             font-weight: 600;
+            color: #f3f4f6;
             margin-bottom: 1.5rem;
         }
         
         .action-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
         
         .action-description {
             flex: 1;
-            margin-right: 1rem;
         }
         
-        .action-title {
+        .action-description h4 {
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #ffffff;
+            color: #f3f4f6;
         }
         
-        .action-details {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            line-height: 1.5;
+        .action-description p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: #6b7280;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 2rem;
+        }
+        
+        .no-issues {
+            text-align: center;
+            padding: 2rem;
+            color: #9ca3af;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>INFRASTRUCTURE REPORT</h1>
+        <div class="date">April 17, 2026</div>
+    </div>
+    
     <div class="container">
-        <div class="header">
-            <h1>INFRASTRUCTURE REPORT</h1>
-            <div class="date">March 02, 2026</div>
-        </div>
-
-        <!-- Health Overview -->
-        <div class="section">
+        <div class="health-overview">
             <h2>Health Overview</h2>
             <div class="overview-grid">
-                <div class="metric-card">
-                    <div class="metric-value" style="color: #f59e0b;">75</div>
-                    <div class="metric-label">Overall Health Score</div>
+                <div class="overview-card">
+                    <div class="number healthy">94</div>
+                    <div class="label">Overall Score</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-value">46</div>
-                    <div class="metric-label">Total Mailboxes</div>
+                <div class="overview-card">
+                    <div class="number">59</div>
+                    <div class="label">Total Mailboxes</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-value" style="color: #10b981;">2</div>
-                    <div class="metric-label">Active Campaigns</div>
+                <div class="overview-card">
+                    <div class="number healthy">59</div>
+                    <div class="label">Healthy</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-value" style="color: #ef4444;">0</div>
-                    <div class="metric-label">Critical Issues</div>
+                <div class="overview-card">
+                    <div class="number">0</div>
+                    <div class="label">Active Campaigns</div>
                 </div>
             </div>
         </div>
-
-        <!-- Critical Alerts -->
+        
         <div class="alert-section">
-            <div class="alert-warning">
-                <div class="alert-title">⚠️ ATTENTION REQUIRED</div>
-                <div>• Both active Eolas campaigns are running low on leads (84 and 155 remaining)</div>
-                <div>• Multiple mailboxes missing health scores - vitals test needed</div>
-                <div>• No active campaigns in Virgil workspace</div>
+            <h3>📋 Infrastructure Status</h3>
+            <div class="alert-item info">
+                <strong>No active campaigns currently running</strong> - All campaigns are paused or in draft status. Ready-to-activate campaigns available with healthy mailboxes.
+            </div>
+            <div class="alert-item info">
+                <strong>Vitals test due</strong> - Last check was March 1st. Recommended to run fresh deliverability tests before campaign activation.
             </div>
         </div>
-
-        <!-- Mailbox Health Tables -->
+        
         <div class="section">
-            <h2>Mailbox Health - Eolas</h2>
-            <table>
+            <h2>Mailbox Health Summary</h2>
+            
+            <h3><span class="workspace-badge eolas">Eolas</span> Mailbox Status</h3>
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Email</th>
-                        <th>Domain</th>
-                        <th>MI Health Score</th>
+                        <th>MI Warmup Score</th>
                         <th>Instantly Status</th>
-                        <th>Warmup Score</th>
                         <th>Campaigns</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>declan@team.teameolasmedical.com</td>
-                        <td>team.teameolasmedical.com</td>
-                        <td>
-                            <div class="health-bar">
-                                <div class="health-fill health-unknown" style="width: 100%;"></div>
-                            </div>
-                            Unknown
-                        </td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>100</td>
-                        <td>1 Active</td>
-                    </tr>
-                    <tr>
-                        <td>declan@mail.tryeolasmedical.com</td>
-                        <td>mail.tryeolasmedical.com</td>
-                        <td>
-                            <div class="health-bar">
-                                <div class="health-fill health-unknown" style="width: 100%;"></div>
-                            </div>
-                            Unknown
-                        </td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>100</td>
-                        <td>1 Active</td>
-                    </tr>
                     <tr>
                         <td>declan@outreach.tryeolasmedical.com</td>
-                        <td>outreach.tryeolasmedical.com</td>
                         <td>
+                            100
                             <div class="health-bar">
-                                <div class="health-fill health-unknown" style="width: 100%;"></div>
+                                <div class="health-bar-fill healthy" style="width: 100%;"></div>
                             </div>
-                            Unknown
                         </td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>99</td>
-                        <td>0 Active</td>
+                        <td><span class="status-indicator status-active"></span>Active</td>
+                        <td>Emergency Medicine (Paused)</td>
+                    </tr>
+                    <tr>
+                        <td>declan@connect.teameolasmedical.com</td>
+                        <td>
+                            100
+                            <div class="health-bar">
+                                <div class="health-bar-fill healthy" style="width: 100%;"></div>
+                            </div>
+                        </td>
+                        <td><span class="status-indicator status-active"></span>Active</td>
+                        <td>Emergency Medicine (Paused)</td>
+                    </tr>
+                    <tr>
+                        <td>declan@outreach.teameolasmedical.com</td>
+                        <td>
+                            100
+                            <div class="health-bar">
+                                <div class="health-bar-fill healthy" style="width: 100%;"></div>
+                            </div>
+                        </td>
+                        <td><span class="status-indicator status-active"></span>Active</td>
+                        <td>Medical Directors NHS (Paused)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #6b7280; font-style: italic;">
+                            + 27 additional healthy mailboxes available
+                        </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-
-        <div class="section">
-            <h2>Mailbox Health - Virgil</h2>
-            <table>
+            
+            <h3 style="margin-top: 2rem;"><span class="workspace-badge virgil">Virgil</span> Mailbox Status</h3>
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Email</th>
-                        <th>Domain</th>
-                        <th>MI Health Score</th>
+                        <th>MI Warmup Score</th>
                         <th>Instantly Status</th>
-                        <th>Warmup Score</th>
                         <th>Campaigns</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>crawford@hello.teamvirgilai.co</td>
-                        <td>hello.teamvirgilai.co</td>
+                        <td>crawford.hawkins@send.teamvirgilai.co</td>
                         <td>
+                            100
                             <div class="health-bar">
-                                <div class="health-fill health-unknown" style="width: 100%;"></div>
+                                <div class="health-bar-fill healthy" style="width: 100%;"></div>
                             </div>
-                            Unknown
                         </td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>100</td>
-                        <td>0 Active</td>
+                        <td><span class="status-indicator status-active"></span>Active</td>
+                        <td>Legal Private Funds (Paused)</td>
                     </tr>
                     <tr>
-                        <td>crawford@connect.tryvirgilai.co</td>
-                        <td>connect.tryvirgilai.co</td>
-                        <td>
-                            <div class="health-bar">
-                                <div class="health-fill health-unknown" style="width: 100%;"></div>
-                            </div>
-                            Unknown
+                        <td colspan="4" style="text-align: center; color: #6b7280; font-style: italic;">
+                            + 29 additional healthy mailboxes available
                         </td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>100</td>
-                        <td>0 Active</td>
-                    </tr>
-                    <tr>
-                        <td>crawford@hello.tryvirgilai.co</td>
-                        <td>hello.tryvirgilai.co</td>
-                        <td>
-                            <div class="health-bar">
-                                <div class="health-fill health-unknown" style="width: 100%;"></div>
-                            </div>
-                            Unknown
-                        </td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>100</td>
-                        <td>0 Active</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <!-- Campaign Status -->
+        
         <div class="section">
             <h2>Campaign Status</h2>
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
-                        <th>Campaign</th>
+                        <th>Campaign Name</th>
                         <th>Workspace</th>
                         <th>Status</th>
-                        <th>Leads Remaining</th>
                         <th>Mailboxes</th>
-                        <th>Issues</th>
+                        <th>Leads Available</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Eolas - Antimicrobial - Evidence</td>
-                        <td><span class="workspace-badge workspace-eolas">Eolas</span></td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td><span class="leads-count leads-warning">84</span></td>
-                        <td>2</td>
-                        <td>Low leads</td>
-                    </tr>
-                    <tr>
-                        <td>Eolas - C-Suite ABM</td>
-                        <td><span class="workspace-badge workspace-eolas">Eolas</span></td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td><span class="leads-count leads-warning">155</span></td>
-                        <td>2</td>
-                        <td>Low leads</td>
-                    </tr>
-                    <tr>
                         <td>Eolas - Emergency Medicine - Speed</td>
-                        <td><span class="workspace-badge workspace-eolas">Eolas</span></td>
-                        <td><span class="status-badge status-paused">Paused</span></td>
-                        <td><span class="leads-count leads-good">Unknown</span></td>
-                        <td>2</td>
-                        <td>None</td>
+                        <td><span class="workspace-badge eolas">Eolas</span></td>
+                        <td><span class="status-indicator status-paused"></span>Paused</td>
+                        <td>2 assigned</td>
+                        <td><span class="healthy">✓ Ready</span></td>
+                    </tr>
+                    <tr>
+                        <td>Eolas - Medical Directors (NHS) - Fresh Angle</td>
+                        <td><span class="workspace-badge eolas">Eolas</span></td>
+                        <td><span class="status-indicator status-paused"></span>Paused</td>
+                        <td>1 assigned</td>
+                        <td><span class="healthy">✓ Ready</span></td>
                     </tr>
                     <tr>
                         <td>Legal (Private Funds) - Virgil Outbound</td>
-                        <td><span class="workspace-badge workspace-virgil">Virgil</span></td>
-                        <td><span class="status-badge status-paused">Paused</span></td>
-                        <td><span class="leads-count leads-good">Unknown</span></td>
-                        <td>1</td>
-                        <td>None</td>
+                        <td><span class="workspace-badge virgil">Virgil</span></td>
+                        <td><span class="status-indicator status-paused"></span>Paused</td>
+                        <td>1 assigned</td>
+                        <td><span class="healthy">✓ Ready</span></td>
+                    </tr>
+                    <tr>
+                        <td>Eolas - US Antimicrobial - Platform Awareness</td>
+                        <td><span class="workspace-badge eolas">Eolas</span></td>
+                        <td><span class="status-indicator status-draft"></span>Draft</td>
+                        <td>2 assigned</td>
+                        <td><span class="healthy">✓ Ready</span></td>
+                    </tr>
+                    <tr>
+                        <td>PE Finance Teams - Dashboards + Proof v2</td>
+                        <td><span class="workspace-badge virgil">Virgil</span></td>
+                        <td><span class="status-indicator status-draft"></span>Draft</td>
+                        <td>1 assigned</td>
+                        <td><span class="healthy">✓ Ready</span></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <!-- Proposed Actions -->
-        <div class="actions-section">
+        
+        <div class="proposed-actions">
             <h2>Proposed Actions</h2>
             
             <div class="action-item">
                 <div class="action-description">
-                    <div class="action-title">Run Health Check on All Mailboxes</div>
-                    <div class="action-details">Multiple mailboxes are missing health scores in Mission Inbox. Run a comprehensive vitals test to identify any deliverability issues before they impact campaign performance.</div>
+                    <h4>🔄 Run Vitals Test</h4>
+                    <p>Test deliverability for all active mailboxes before campaign activation. Last test was March 1st.</p>
                 </div>
-                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiIwMDc5MTY2MS1lM2FiLTQ5MzItODZlNi1kMzg3MGQ1OWU4M2QiLCJleHAiOjE3NzI1NDY5MDYsImlhdCI6MTc3MjQ2MDUwNiwicHJtIjp7ImVtYWlscyI6WyJkZWNsYW5Ab3V0cmVhY2gudGVhbWVvbGFzbWVkaWNhbC5jb20iLCJkZWNsYW5Ab3V0cmVhY2gudHJ5ZW9sYXNtZWRpY2FsLmNvbSIsImNyYXdmb3JkQGhlbGxvLnRlYW12aXJnaWxhaS5jbyIsImNyYXdmb3JkQGNvbm5lY3QudHJ5dmlyZ2lsYWkuY28iXSwid29ya3NwYWNlIjoiYm90aCJ9LCJ0eXAiOiJydW5fdml0YWxzX3Rlc3QifQ.1684e4823f6ac92d69b28f6c18055e89" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#dc2626;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Run Vitals Test - All Mailboxes</a>
+                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiI1MDVhNWU3NS0xYWViLTQ0OTctODY4MC1lYzQ5YzlkNzc4ZmIiLCJleHAiOjE3NzY1MTk3NDIsImlhdCI6MTc3NjQzMzM0MiwicHJtIjp7ImVtYWlscyI6WyJkZWNsYW5Ab3V0cmVhY2gudHJ5ZW9sYXNtZWRpY2FsLmNvbSIsImRlY2xhbkBjb25uZWN0LnRlYW1lb2xhc21lZGljYWwuY29tIiwiZGVjbGFuQG91dHJlYWNoLnRlYW1lb2xhc21lZGljYWwuY29tIiwiY3Jhd2ZvcmQuaGF3a2luc0BzZW5kLnRlYW12aXJnaWxhaS5jbyJdfSwidHlwIjoicnVuX3ZpdGFsc190ZXN0In0.879d76b47799cf4b7d56b5008f6d61b7" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#dc2626;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Run Vitals Test - All Active Mailboxes</a>
             </div>
-
+            
             <div class="action-item">
                 <div class="action-description">
-                    <div class="action-title">Consider Pausing Low-Lead Campaign</div>
-                    <div class="action-details">The "Eolas - Antimicrobial - Evidence" campaign has only 84 leads remaining. Consider pausing to preserve mailbox reputation or add fresh leads before continuing.</div>
+                    <h4>🚀 Activate Eolas Emergency Medicine Campaign</h4>
+                    <p>Campaign is paused with healthy mailboxes and available leads. Ready for activation.</p>
                 </div>
-                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiI2OGJlNmJhZS04NDI1LTRlNWEtYWNjNS04MGY3MDRkNTViNjYiLCJleHAiOjE3NzI1NDY5MDksImlhdCI6MTc3MjQ2MDUwOSwicHJtIjp7ImNhbXBhaWduX2lkIjoiYWQ5NWI2MzctYWU3YS00YzE4LWE5NTItNzljYzQzN2NjY2UxIiwid29ya3NwYWNlIjoiZW9sYXMifSwidHlwIjoicGF1c2VfY2FtcGFpZ24ifQ.c6ff83fba8fbea649695a14a98bc3770" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#2563eb;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Pause - Eolas Antimicrobial Evidence (84 leads left)</a>
+                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiJjM2ZmNTZjNC0zYzY2LTQ2NmItYjFkYi0wMTNjMWE0YTA5Y2IiLCJleHAiOjE3NzY1MTk3MjksImlhdCI6MTc3NjQzMzMyOSwicHJtIjp7ImNhbXBhaWduX2lkIjoiZWE4OGQwMzktNTlhYy00N2I5LWEyMTctMDYyMWIwNzhhMmM5Iiwid29ya3NwYWNlIjoiZW9sYXMifSwidHlwIjoiYWN0aXZhdGVfY2FtcGFpZ24ifQ.b0f2986541ba9672d95a46bd4fc5a41c" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#2563eb;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Activate Campaign - Eolas Emergency Medicine</a>
             </div>
-
+            
             <div class="action-item">
                 <div class="action-description">
-                    <div class="action-title">Review Virgil Campaign Strategy</div>
-                    <div class="action-details">Virgil workspace has healthy mailboxes (100 warmup scores) but no active campaigns. Consider activating draft campaigns or developing new outreach strategies to utilize available infrastructure.</div>
+                    <h4>🚀 Activate Eolas Medical Directors NHS Campaign</h4>
+                    <p>Campaign is paused with healthy mailboxes and available leads. Ready for activation.</p>
                 </div>
+                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiI2YWE5OTIzYy1hYzQ1LTRmOGEtYjkyOS0wMzIyNGE2MWYzODQiLCJleHAiOjE3NzY1MTk3MzUsImlhdCI6MTc3NjQzMzMzNSwicHJtIjp7ImNhbXBhaWduX2lkIjoiY2NkMGE4MDctZWE4Yy00ODQ1LWFjZmEtODNjOWI2YTQyYzkyIiwid29ya3NwYWNlIjoiZW9sYXMifSwidHlwIjoiYWN0aXZhdGVfY2FtcGFpZ24ifQ.7d18b53a0ddaf90e598f58b95474b1c0" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#2563eb;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Activate Campaign - Eolas Medical Directors NHS</a>
             </div>
-
+            
             <div class="action-item">
                 <div class="action-description">
-                    <div class="action-title">Lead Replenishment Needed</div>
-                    <div class="action-details">Both active Eolas campaigns are running low on leads. Plan lead generation activities or data sourcing to maintain campaign momentum without gaps.</div>
+                    <h4>🚀 Activate Virgil Legal Private Funds Campaign</h4>
+                    <p>Campaign is paused with healthy mailboxes and available leads. Ready for activation.</p>
                 </div>
+                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiI4OWQ2OTMyNi04NTdiLTQ0MjQtYjM1MS0zNzNjZjE5NDExNTEiLCJleHAiOjE3NzY1MTk3MzgsImlhdCI6MTc3NjQzMzMzOCwicHJtIjp7ImNhbXBhaWduX2lkIjoiZWRhNWNiYzctZjFjZi00NmRkLTliMjctZTYyY2U0YzdmNGEwIiwid29ya3NwYWNlIjoidmlyZ2lsIn0sInR5cCI6ImFjdGl2YXRlX2NhbXBhaWduIn0.19822b788d09b9de49425b528e179262" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#2563eb;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Activate Campaign - Virgil Legal Private Funds</a>
             </div>
         </div>
-
-        <div class="footer">
-            <p>Generated on March 02, 2026 at 12:01 PM UTC</p>
-            <p>Next scheduled report: March 03, 2026</p>
-        </div>
+    </div>
+    
+    <div class="footer">
+        Generated on April 17, 2026 at 12:35 PM UTC
     </div>
 </body>
 </html>
