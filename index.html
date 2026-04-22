@@ -3,486 +3,577 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infrastructure Report - April 21, 2026</title>
+    <title>Infrastructure Report - April 22, 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, Inter, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
             color: #ffffff;
             min-height: 100vh;
+            line-height: 1.6;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 2rem;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 3rem;
         }
         
         .header h1 {
-            font-size: 36px;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #10b981, #06d6a0);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #10b981, #34d399);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .header p {
-            font-size: 16px;
-            color: #9ca3af;
+        .header .date {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
         }
         
-        .overview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-        
-        .metric-card {
+        .health-overview {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            padding: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .health-overview h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #10b981;
+        }
+        
+        .health-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .health-stat {
             text-align: center;
         }
         
-        .metric-value {
-            font-size: 32px;
+        .health-stat .number {
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
         }
         
-        .metric-label {
-            font-size: 14px;
-            color: #9ca3af;
+        .health-stat .label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        .healthy { color: #10b981; }
-        .warning { color: #f59e0b; }
-        .critical { color: #ef4444; }
+        .status-healthy { color: #10b981; }
+        .status-warning { color: #f59e0b; }
+        .status-critical { color: #ef4444; }
         
         .section {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
         }
         
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 16px;
+        .section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .alert-section {
-            margin-bottom: 24px;
+            border-left: 4px solid;
         }
         
         .alert-critical {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
+            border-left-color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
         }
         
         .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
+            border-left-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.05);
         }
         
-        .table {
+        .alert-info {
+            border-left-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .alert-item {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .alert-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 16px;
+            margin-top: 1rem;
         }
         
-        .table th,
-        .table td {
-            padding: 12px;
+        th, td {
+            padding: 1rem;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .table th {
+        th {
             font-weight: 600;
-            color: #9ca3af;
-            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.02);
         }
         
-        .badge {
+        td {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .workspace-badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 12px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
+            text-transform: uppercase;
         }
         
-        .badge-eolas {
+        .workspace-eolas {
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
         }
         
-        .badge-virgil {
-            background: rgba(37, 99, 235, 0.2);
-            color: #2563eb;
+        .workspace-virgil {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
         }
         
-        .badge-active {
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-active {
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
         }
         
-        .badge-paused {
+        .status-paused {
             background: rgba(245, 158, 11, 0.2);
             color: #f59e0b;
         }
         
-        .badge-draft {
-            background: rgba(156, 163, 175, 0.2);
+        .status-draft {
+            background: rgba(107, 114, 128, 0.2);
             color: #9ca3af;
         }
         
         .warmup-bar {
-            width: 60px;
-            height: 8px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
+            height: 6px;
             overflow: hidden;
-            display: inline-block;
-            margin-right: 8px;
+            margin: 0.5rem 0;
+            position: relative;
         }
         
         .warmup-fill {
             height: 100%;
+            border-radius: 4px;
             transition: width 0.3s ease;
         }
         
-        .warmup-100 { background: #10b981; }
-        .warmup-99 { background: #34d399; }
-        .warmup-88 { background: #f59e0b; }
+        .leads-critical { color: #ef4444; font-weight: 600; }
+        .leads-warning { color: #f59e0b; font-weight: 600; }
+        .leads-healthy { color: #10b981; }
         
         .footer {
             text-align: center;
-            padding: 24px;
-            color: #9ca3af;
-            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
+        .no-data {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            padding: 2rem;
+        }
+        
+        .action-button {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 4px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+        
+        .action-button:hover {
+            opacity: 0.8;
+        }
+        
+        .proposed-actions {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
         .action-item {
-            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .action-item:last-child {
+            margin-bottom: 0;
         }
         
         .action-description {
-            flex: 1;
-            margin-right: 16px;
-        }
-        
-        .no-issues {
-            text-align: center;
-            color: #10b981;
-            font-style: italic;
-            padding: 24px;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
             <h1>INFRASTRUCTURE REPORT</h1>
-            <p>Monday, April 21, 2026 • System Health Assessment</p>
+            <div class="date">April 22, 2026</div>
         </div>
-        
-        <div class="overview">
-            <div class="metric-card">
-                <div class="metric-value healthy">STABLE</div>
-                <div class="metric-label">Overall Health</div>
+
+        <!-- Health Overview -->
+        <div class="health-overview">
+            <h2>🎯 Health Overview</h2>
+            <div class="health-stats">
+                <div class="health-stat">
+                    <div class="number status-healthy">95</div>
+                    <div class="label">Overall Score</div>
+                </div>
+                <div class="health-stat">
+                    <div class="number">47</div>
+                    <div class="label">Total Mailboxes</div>
+                </div>
+                <div class="health-stat">
+                    <div class="number status-healthy">47</div>
+                    <div class="label">Healthy</div>
+                </div>
+                <div class="health-stat">
+                    <div class="number status-warning">0</div>
+                    <div class="label">Warning</div>
+                </div>
+                <div class="health-stat">
+                    <div class="number status-critical">0</div>
+                    <div class="label">Critical</div>
+                </div>
+                <div class="health-stat">
+                    <div class="number">0</div>
+                    <div class="label">Active Campaigns</div>
+                </div>
             </div>
-            <div class="metric-card">
-                <div class="metric-value">58</div>
-                <div class="metric-label">Total Mailboxes</div>
+            <p style="color: rgba(255, 255, 255, 0.7); text-align: center; margin-top: 1rem;">
+                ✅ All mailboxes are healthy with perfect warmup scores. Infrastructure is ready for campaign activation.
+            </p>
+        </div>
+
+        <!-- Info Alerts -->
+        <div class="section alert-section alert-info">
+            <h2>💡 Opportunities</h2>
+            <div class="alert-item">
+                <div class="alert-title">Draft Campaign Ready for Launch</div>
+                <div>Eolas US Antimicrobial campaign has healthy mailboxes assigned and is ready to activate. Target: antimicrobial stewardship teams in US hospitals.</div>
             </div>
-            <div class="metric-card">
-                <div class="metric-value healthy">53</div>
-                <div class="metric-label">Healthy (90%+)</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value warning">5</div>
-                <div class="metric-label">Warmup Paused</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">0</div>
-                <div class="metric-label">Active Campaigns</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value">3</div>
-                <div class="metric-label">Paused Campaigns</div>
+            <div class="alert-item">
+                <div class="alert-title">Paused Campaigns with Remaining Leads</div>
+                <div>Multiple paused campaigns have unsent leads and healthy mailboxes. Consider reactivating high-performing sequences.</div>
             </div>
         </div>
-        
-        <div class="alert-section">
-            <h2 class="section-title">⚠️ Alerts & Issues</h2>
-            <div class="alert-warning">
-                <h3>⚠️ WARNING: Vitals Test Overdue</h3>
-                <p>Last vitals check was on April 17, 2026. Due for health assessment of all mailboxes.</p>
-            </div>
-            <div class="alert-warning">
-                <h3>⚠️ WARNING: No Active Campaigns</h3>
-                <p>All campaigns are currently paused or draft status. Multiple ready-to-activate campaigns with healthy mailboxes available.</p>
-            </div>
-            <div class="no-issues">
-                ✅ No critical infrastructure issues detected
-            </div>
-        </div>
-        
+
+        <!-- Mailbox Health - Eolas -->
         <div class="section">
-            <h2 class="section-title">📧 Mailbox Health Status</h2>
-            
-            <h3 style="margin-bottom: 16px;">Eolas Workspace (28 accounts)</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Email</th>
-                        <th>Warmup Score</th>
-                        <th>Status</th>
-                        <th>Campaign Usage</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>declan@outreach.tryeolasmedical.com</td>
-                        <td>
-                            <span class="warmup-bar"><span class="warmup-fill warmup-100" style="width: 100%;"></span></span>
-                            <span class="healthy">100</span>
-                        </td>
-                        <td><span class="badge badge-active">Active</span></td>
-                        <td>Emergency Medicine - Speed (Paused)</td>
-                    </tr>
-                    <tr>
-                        <td>declan@connect.teameolasmedical.com</td>
-                        <td>
-                            <span class="warmup-bar"><span class="warmup-fill warmup-100" style="width: 100%;"></span></span>
-                            <span class="healthy">100</span>
-                        </td>
-                        <td><span class="badge badge-active">Active</span></td>
-                        <td>Emergency Medicine - Speed (Paused)</td>
-                    </tr>
-                    <tr>
-                        <td>declan@outreach.teameolasmedical.com</td>
-                        <td>
-                            <span class="warmup-bar"><span class="warmup-fill warmup-100" style="width: 100%;"></span></span>
-                            <span class="healthy">100</span>
-                        </td>
-                        <td><span class="badge badge-active">Active</span></td>
-                        <td>Medical Directors (NHS) (Paused)</td>
-                    </tr>
-                    <tr>
-                        <td>declan@mailbox.eolas-medical.com</td>
-                        <td>
-                            <span class="warmup-bar"><span class="warmup-fill warmup-88" style="width: 88%;"></span></span>
-                            <span class="warning">88</span>
-                        </td>
-                        <td><span class="badge badge-paused">Warmup Paused</span></td>
-                        <td>Unassigned</td>
-                    </tr>
-                    <tr>
-                        <td>declan@mail.eolasmedicalteam.com</td>
-                        <td>
-                            <span class="warmup-bar"><span class="warmup-fill warmup-99" style="width: 98%;"></span></span>
-                            <span class="healthy">98</span>
-                        </td>
-                        <td><span class="badge badge-active">Active</span></td>
-                        <td>Unassigned</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="text-align: center; color: #9ca3af; font-style: italic;">
-                            + 23 additional healthy mailboxes (all 100 score, active warmup)
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <h3 style="margin-bottom: 16px; margin-top: 32px;">Virgil Workspace (30 accounts)</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Email</th>
-                        <th>Warmup Score</th>
-                        <th>Status</th>
-                        <th>Campaign Usage</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>crawford.hawkins@send.teamvirgilai.co</td>
-                        <td>
-                            <span class="warmup-bar"><span class="warmup-fill warmup-100" style="width: 100%;"></span></span>
-                            <span class="healthy">100</span>
-                        </td>
-                        <td><span class="badge badge-active">Active</span></td>
-                        <td>Legal (Private Funds) (Paused)</td>
-                    </tr>
-                    <tr>
-                        <td>hawkins@send.teamvirgilai.co</td>
-                        <td>
-                            <span class="warmup-bar"><span class="warmup-fill warmup-99" style="width: 99%;"></span></span>
-                            <span class="healthy">99</span>
-                        </td>
-                        <td><span class="badge badge-active">Active</span></td>
-                        <td>Unassigned</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="text-align: center; color: #9ca3af; font-style: italic;">
-                            + 28 additional healthy mailboxes (all 100 score, active warmup)
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2>📬 Mailbox Health - Eolas</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>MI Warmup Score</th>
+                            <th>Instantly Status</th>
+                            <th>Sent This Cycle</th>
+                            <th>Campaigns Assigned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>declan@team.tryeolasmedical.com</td>
+                            <td>
+                                <div class="warmup-bar">
+                                    <div class="warmup-fill status-healthy" style="width: 100%; background-color: #10b981;"></div>
+                                </div>
+                                100% (Perfect)
+                            </td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>877</td>
+                            <td>Emergency Medicine (Paused)</td>
+                        </tr>
+                        <tr>
+                            <td>declan@m.eolasmedicalteam.com</td>
+                            <td>
+                                <div class="warmup-bar">
+                                    <div class="warmup-fill status-healthy" style="width: 100%; background-color: #10b981;"></div>
+                                </div>
+                                100% (Perfect)
+                            </td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>1446</td>
+                            <td>None</td>
+                        </tr>
+                        <tr>
+                            <td>declan@outreach.tryeolasmedical.com</td>
+                            <td>
+                                <div class="warmup-bar">
+                                    <div class="warmup-fill status-healthy" style="width: 100%; background-color: #10b981;"></div>
+                                </div>
+                                100% (Perfect)
+                            </td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>826</td>
+                            <td>Emergency Medicine (Paused)</td>
+                        </tr>
+                        <tr>
+                            <td>declan@hello.geteolasmedical.com</td>
+                            <td>
+                                <div class="warmup-bar">
+                                    <div class="warmup-fill status-healthy" style="width: 100%; background-color: #10b981;"></div>
+                                </div>
+                                100% (Perfect)
+                            </td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>653</td>
+                            <td>US Antimicrobial (Draft)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: rgba(255, 255, 255, 0.5); font-style: italic;">
+                                + 23 more healthy Eolas mailboxes (all 100% warmup scores)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        
+
+        <!-- Mailbox Health - Virgil -->
         <div class="section">
-            <h2 class="section-title">🎯 Campaign Status</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Campaign Name</th>
-                        <th>Workspace</th>
-                        <th>Status</th>
-                        <th>Mailboxes</th>
-                        <th>Leads Status</th>
-                        <th>Issues</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Emergency Medicine - Speed</td>
-                        <td><span class="badge badge-eolas">Eolas</span></td>
-                        <td><span class="badge badge-paused">Paused</span></td>
-                        <td>2</td>
-                        <td><span class="healthy">Leads Available</span></td>
-                        <td>None</td>
-                    </tr>
-                    <tr>
-                        <td>Medical Directors (NHS) - Fresh Angle</td>
-                        <td><span class="badge badge-eolas">Eolas</span></td>
-                        <td><span class="badge badge-paused">Paused</span></td>
-                        <td>1</td>
-                        <td><span class="healthy">Leads Available</span></td>
-                        <td>None</td>
-                    </tr>
-                    <tr>
-                        <td>Legal (Private Funds) - Virgil Outbound</td>
-                        <td><span class="badge badge-virgil">Virgil</span></td>
-                        <td><span class="badge badge-paused">Paused</span></td>
-                        <td>1</td>
-                        <td><span class="healthy">Leads Available</span></td>
-                        <td>None</td>
-                    </tr>
-                    <tr>
-                        <td>US Antimicrobial - Platform Awareness</td>
-                        <td><span class="badge badge-eolas">Eolas</span></td>
-                        <td><span class="badge badge-draft">Draft</span></td>
-                        <td>2</td>
-                        <td><span class="healthy">Ready to Launch</span></td>
-                        <td>None</td>
-                    </tr>
-                    <tr>
-                        <td>UK Senior Clinical Leaders (Ryan ABM)</td>
-                        <td><span class="badge badge-eolas">Eolas</span></td>
-                        <td><span class="badge badge-draft">Draft</span></td>
-                        <td>TBD</td>
-                        <td><span class="healthy">Ready to Launch</span></td>
-                        <td>None</td>
-                    </tr>
-                    <tr>
-                        <td>PE Finance Teams - Dashboards + Proof v2</td>
-                        <td><span class="badge badge-virgil">Virgil</span></td>
-                        <td><span class="badge badge-draft">Draft</span></td>
-                        <td>1</td>
-                        <td><span class="healthy">Ready to Launch</span></td>
-                        <td>None</td>
-                    </tr>
-                    <tr>
-                        <td>IB IR - Client Materials + Proof v2</td>
-                        <td><span class="badge badge-virgil">Virgil</span></td>
-                        <td><span class="badge badge-draft">Draft</span></td>
-                        <td>TBD</td>
-                        <td><span class="healthy">Ready to Launch</span></td>
-                        <td>None</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2>📬 Mailbox Health - Virgil</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>MI Warmup Score</th>
+                            <th>Instantly Status</th>
+                            <th>Sent This Cycle</th>
+                            <th>Campaigns Assigned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>crawford@hello.teamvirgilai.co</td>
+                            <td>
+                                <div class="warmup-bar">
+                                    <div class="warmup-fill status-healthy" style="width: 100%; background-color: #10b981;"></div>
+                                </div>
+                                100% (Perfect)
+                            </td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>650</td>
+                            <td>None</td>
+                        </tr>
+                        <tr>
+                            <td>crawford@mail.teamvirgil.co</td>
+                            <td>
+                                <div class="warmup-bar">
+                                    <div class="warmup-fill status-healthy" style="width: 100%; background-color: #10b981;"></div>
+                                </div>
+                                100% (Perfect)
+                            </td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>1256</td>
+                            <td>None</td>
+                        </tr>
+                        <tr>
+                            <td>crawford.hawkins@send.teamvirgilai.co</td>
+                            <td>
+                                <div class="warmup-bar">
+                                    <div class="warmup-fill status-healthy" style="width: 99%; background-color: #10b981;"></div>
+                                </div>
+                                99% (Excellent)
+                            </td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>1279</td>
+                            <td>Legal Private Funds (Paused)</td>
+                        </tr>
+                        <tr>
+                            <td>crawford@send.teamvirgil.co</td>
+                            <td>
+                                <div class="warmup-bar">
+                                    <div class="warmup-fill status-healthy" style="width: 100%; background-color: #10b981;"></div>
+                                </div>
+                                100% (Perfect)
+                            </td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>1268</td>
+                            <td>None</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: rgba(255, 255, 255, 0.5); font-style: italic;">
+                                + 16 more healthy Virgil mailboxes (all 99-100% warmup scores)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        
+
+        <!-- Campaign Status -->
         <div class="section">
-            <h2 class="section-title">🚀 Proposed Actions</h2>
+            <h2>🚀 Campaign Status</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campaign Name</th>
+                            <th>Workspace</th>
+                            <th>Status</th>
+                            <th>Leads Remaining</th>
+                            <th>Mailboxes</th>
+                            <th>Issues</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Eolas - US Antimicrobial - Platform Awareness</td>
+                            <td><span class="workspace-badge workspace-eolas">Eolas</span></td>
+                            <td><span class="status-badge status-draft">Draft</span></td>
+                            <td><span class="leads-healthy">Ready to launch</span></td>
+                            <td>2</td>
+                            <td>None - Ready to activate</td>
+                        </tr>
+                        <tr>
+                            <td>Eolas - Emergency Medicine - Speed</td>
+                            <td><span class="workspace-badge workspace-eolas">Eolas</span></td>
+                            <td><span class="status-badge status-paused">Paused</span></td>
+                            <td><span class="leads-warning">169 remaining</span></td>
+                            <td>2</td>
+                            <td>Good performance candidate for reactivation</td>
+                        </tr>
+                        <tr>
+                            <td>Legal (Private Funds) - Virgil Outbound</td>
+                            <td><span class="workspace-badge workspace-virgil">Virgil</span></td>
+                            <td><span class="status-badge status-paused">Paused</span></td>
+                            <td><span class="leads-warning">41 remaining</span></td>
+                            <td>1</td>
+                            <td>Consider reactivation with more mailboxes</td>
+                        </tr>
+                        <tr>
+                            <td>Eolas - UK Senior Clinical Leaders</td>
+                            <td><span class="workspace-badge workspace-eolas">Eolas</span></td>
+                            <td><span class="status-badge status-draft">Draft</span></td>
+                            <td><span class="leads-healthy">Ready to launch</span></td>
+                            <td>Not assigned</td>
+                            <td>Needs mailbox assignment</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Proposed Actions -->
+        <div class="proposed-actions">
+            <h2>🎯 Proposed Actions</h2>
             
             <div class="action-item">
                 <div class="action-description">
-                    <strong>Run comprehensive vitals test</strong><br>
-                    <span style="color: #9ca3af;">Test deliverability and health of all Eolas mailboxes. Last check was 4 days ago.</span>
+                    <strong>Activate Eolas US Antimicrobial Campaign:</strong> The draft campaign targeting antimicrobial stewardship teams has healthy mailboxes assigned and compelling copy. This campaign focuses on clinical guideline access pain points and positions Eolas as a solution. Ready for immediate activation.
                 </div>
-                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiI4YWU5ZmNlNC02OGEzLTRiYWMtOTIyNS00MzEwMzFjODAzZmEiLCJleHAiOjE3NzY4NjU1NjAsImlhdCI6MTc3Njc3OTE2MCwicHJtIjp7ImVtYWlscyI6WyJkZWNsYW5Ab3V0cmVhY2gudHJ5ZW9sYXNtZWRpY2FsLmNvbSIsImRlY2xhbkBjb25uZWN0LnRlYW1lb2xhc21lZGljYWwuY29tIiwiZGVjbGFuQG91dHJlYWNoLnRlYW1lb2xhc21lZGljYWwuY29tIl0sIndvcmtzcGFjZSI6ImVvbGFzIn0sInR5cCI6InJ1bl92aXRhbHNfdGVzdCJ9.e6fb52c11c767479f4f3428d11c15e0a" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#dc2626;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Run Vitals Test - Eolas Mailboxes</a>
+                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiI4NzU0YjEzYy0yNDk5LTQ2NjgtYjc4Yy1lMmFiN2EzNGNhNTgiLCJleHAiOjE3NzY5NTE4NjksImlhdCI6MTc3Njg2NTQ2OSwicHJtIjp7ImNhbXBhaWduX2lkIjoiZDdlMWFlMGYtOTFkYS00MjY2LWEyMDMtZWFhNDg4YjIzMDMzIiwid29ya3NwYWNlIjoiZW9sYXMifSwidHlwIjoiYWN0aXZhdGVfY2FtcGFpZ24ifQ.9652637911a5b18efa29b1760612ca23" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#2563eb;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Activate Campaign - Eolas US Antimicrobial</a>
             </div>
             
             <div class="action-item">
                 <div class="action-description">
-                    <strong>Run comprehensive vitals test</strong><br>
-                    <span style="color: #9ca3af;">Test deliverability and health of all Virgil mailboxes. Ensure sending capacity is optimal.</span>
+                    <strong>Consider Reactivating Emergency Medicine Campaign:</strong> This Eolas campaign has 169 unsent leads and performed well before being paused. The mailboxes are healthy with perfect warmup scores. The emergency medicine messaging resonates well with NHS trusts.
                 </div>
-                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiIxNzk4YzhmYi03M2Q0LTQwNWItYThkOC1iNmRmY2UzNGZiODkiLCJleHAiOjE3NzY4NjU1NjMsImlhdCI6MTc3Njc3OTE2MywicHJtIjp7ImVtYWlscyI6WyJjcmF3Zm9yZC5oYXdraW5zQHNlbmQudGVhbXZpcmdpbGFpLmNvIl0sIndvcmtzcGFjZSI6InZpcmdpbCJ9LCJ0eXAiOiJydW5fdml0YWxzX3Rlc3QifQ.22f714f7ffd6005ad5fc0834cf69b894" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#dc2626;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Run Vitals Test - Virgil Mailboxes</a>
             </div>
             
             <div class="action-item">
                 <div class="action-description">
-                    <strong>Consider activating ready draft campaigns</strong><br>
-                    <span style="color: #9ca3af;">Eolas US Antimicrobial campaign is configured and ready to launch with healthy mailboxes assigned.</span>
+                    <strong>Assign Mailboxes to UK Clinical Leaders Campaign:</strong> The draft Eolas campaign for UK senior clinical leaders needs mailbox assignment before activation. Multiple healthy mailboxes are available for assignment.
                 </div>
-                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiJkNDRlMmY5My04ZTZjLTRjM2UtODUyYS00NzkwNmJjZWYzMmQiLCJleHAiOjE3NzY4NjU1NjcsImlhdCI6MTc3Njc3OTE2NywicHJtIjp7ImNhbXBhaWduX2lkIjoiZDdlMWFlMGYtOTFkYS00MjY2LWEyMDMtZWFhNDg4YjIzMDMzIiwid29ya3NwYWNlIjoiZW9sYXMifSwidHlwIjoiYWN0aXZhdGVfY2FtcGFpZ24ifQ.22914c8c12cfba5885bcb57e43172028" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#2563eb;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Activate Campaign - Eolas US Antimicrobial</a>
             </div>
             
             <div class="action-item">
                 <div class="action-description">
-                    <strong>Consider activating ready draft campaigns</strong><br>
-                    <span style="color: #9ca3af;">Virgil PE Finance Teams campaign is configured and ready to launch with healthy mailboxes.</span>
+                    <strong>Monitor Virgil Legal Campaign:</strong> The private funds legal campaign has 41 remaining leads and received 2 auto-replies from 22 sent emails. Consider adding more mailboxes to scale if reactivating.
                 </div>
-                <a href="https://claude-config-production-f7be.up.railway.app/action/eyJhaWQiOiIxYzIwMGU2My05MzA2LTQ4ZWEtOGM5MS0wODVhMTdhODNiMDEiLCJleHAiOjE3NzY4NjU1NzAsImlhdCI6MTc3Njc3OTE3MCwicHJtIjp7ImNhbXBhaWduX2lkIjoiZmVmMDNjYjMtYTExMy00Zjk2LWIyZWEtMWU4NjE3M2Y1NzI3Iiwid29ya3NwYWNlIjoidmlyZ2lsIn0sInR5cCI6ImFjdGl2YXRlX2NhbXBhaWduIn0.0d804bbf102a0e6b315d230c18458ee7" target="_blank" style="display:inline-block;padding:10px 20px;background-color:#2563eb;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:4px;">Activate Campaign - PE Finance Teams</a>
             </div>
         </div>
-        
-        <div class="section">
-            <h2 class="section-title">📊 Key Insights</h2>
-            <ul style="list-style: none; padding-left: 0;">
-                <li style="margin-bottom: 12px;">✅ <strong>Excellent mailbox health:</strong> 91% of mailboxes have perfect 100 warmup scores</li>
-                <li style="margin-bottom: 12px;">⚠️ <strong>Capacity underutilized:</strong> 58 healthy mailboxes available but no active campaigns</li>
-                <li style="margin-bottom: 12px;">📈 <strong>Growth opportunity:</strong> 4 draft campaigns ready to launch immediately</li>
-                <li style="margin-bottom: 12px;">🔧 <strong>Minor maintenance:</strong> 5 mailboxes with paused warmup need attention</li>
-                <li style="margin-bottom: 12px;">⏰ <strong>Routine maintenance:</strong> Vitals test overdue - recommended every 2-3 days</li>
-            </ul>
-        </div>
-        
+
+        <!-- Footer -->
         <div class="footer">
-            Generated on Monday, April 21, 2026 at 10:26 AM UTC<br>
-            Next automated report: Tuesday, April 22, 2026
+            Generated on April 22, 2026 at 2:47 PM UTC<br>
+            <small>Vitals check skipped (last run: April 21, 2026 - within 3-day window)</small>
         </div>
     </div>
 </body>
